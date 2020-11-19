@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import './App.scss';
+import LogIn from './components/Login/LogIn';
+import Header from './components/Header/Header';
+import {getMessages} from './services/firebase';
+
 
 function App() {
+  const [user, setUser] = useState();
+  const [messages, setMessages]= useState([]);
+
+  useEffect(()=>{
+    if(user){
+      getMessages().then(messages => setMessages(messages))
+    }else{
+      setMessages([]);
+    }
+  },[user]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header user={user}/>
+      {
+        user ?
+        <div>
+          {
+            messages.map(message =>{
+              return(
+                <div>
+                  <span>{message.date.toDate().toString()}:{message.messege} </span>
+                </div>
+              )
+            })
+          }
+        </div>
+        :
+        <LogIn setUser={setUser} />
+      }
+      
     </div>
   );
 }

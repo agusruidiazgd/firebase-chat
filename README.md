@@ -1,3 +1,9 @@
+# Deploy
+yarn global add firebase-tools (solo una vez)
+firebase login
+firebase init
+firebase deploy
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
